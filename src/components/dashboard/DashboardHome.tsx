@@ -19,12 +19,12 @@ const DashboardHome: React.FC = () => {
   
   // Mock data for demonstration
   const anomalyMapData = [
-    { name: "App A", value: 3, status: "low", cost: "$240", service: "S3" },
-    { name: "App B", value: 12, status: "high", cost: "$1,250", service: "EC2" },
-    { name: "App C", value: 7, status: "medium", cost: "$520", service: "Lambda" },
-    { name: "App D", value: 4, status: "low", cost: "$310", service: "DynamoDB" },
-    { name: "App E", value: 8, status: "medium", cost: "$680", service: "RDS" },
-    { name: "App F", value: 2, status: "low", cost: "$180", service: "CloudFront" },
+    { name: "App A", value: 3, status: "healthy", cost: "$240", service: "S3" },
+    { name: "App B", value: 12, status: "critical", cost: "$1,250", service: "EC2" },
+    { name: "App C", value: 7, status: "watch", cost: "$520", service: "Lambda" },
+    { name: "App D", value: 4, status: "healthy", cost: "$310", service: "DynamoDB" },
+    { name: "App E", value: 8, status: "watch", cost: "$680", service: "RDS" },
+    { name: "App F", value: 2, status: "healthy", cost: "$180", service: "CloudFront" },
   ];
 
   const leaderboardData = [
@@ -149,7 +149,7 @@ const DashboardHome: React.FC = () => {
                     Rank: #3 of 18
                   </span>
                 </div>
-                <div className="text-3xl font-bold text-finops-blue">1,250</div>
+                <div className="text-3xl font-bold text-finops-blue">820</div>
               </div>
               <div className="mt-4">
                 <h3 className="text-sm font-medium mb-3">Badges</h3>
@@ -240,9 +240,9 @@ const DashboardHome: React.FC = () => {
                           index === 0 
                             ? "bg-finops-yellow text-finops-gray-900" 
                             : index === 1 
-                              ? "bg-finops-gray-300 text-finops-gray-900"
+                              ? "bg-finops-gray-200 text-finops-gray-700"
                               : index === 2
-                                ? "bg-finops-orange text-white"
+                                ? "bg-finops-teal"
                                 : "bg-finops-gray-200 text-finops-gray-700"
                         }`}>
                           {index + 1}
@@ -271,7 +271,6 @@ const DashboardHome: React.FC = () => {
             <DialogTitle className="flex items-center justify-between">
               Anomaly Details
               <DialogClose className="h-4 w-4 opacity-70 hover:opacity-100">
-                <X className="h-4 w-4" />
               </DialogClose>
             </DialogTitle>
             <DialogDescription>

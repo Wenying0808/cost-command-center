@@ -109,7 +109,7 @@ const TeamScorecard: React.FC = () => {
                 title="Total Cost of Anomalies Reduced"
                 value={teamFPIs.anomaliesReduced}
                 icon={<TrendingUp className="h-4 w-4" />}
-                trend={{ value: 15, isPositive: true }}
+                trend={{ value: 15, isPositive: false }}
               />
               
               <MetricCard

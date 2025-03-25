@@ -4,6 +4,7 @@ import { AlarmClock, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-reac
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
+import RootCauseAnalysisTable from "@/components/ui/RootCauseAnalysisTable";
 
 const AnomalyResolution: React.FC = () => {
   // Mock data
@@ -11,7 +12,7 @@ const AnomalyResolution: React.FC = () => {
     totalCost: "$4,320",
     percentageAffected: "8.5%",
     detectedAgo: "2 hrs 15 min",
-    mttdClock: "2:15",
+    mttdClock: "2 hrs 15 min",
     rcaTime: "0:45"
   };
 
@@ -77,6 +78,8 @@ const AnomalyResolution: React.FC = () => {
           />
         </div>
       </div>
+
+      <RootCauseAnalysisTable/>
 
       {/* Main Dashboard Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

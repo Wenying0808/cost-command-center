@@ -210,7 +210,7 @@ const AppHealth: React.FC = () => {
                         Flag
                       </button>
                       <button className="bg-finops-blue text-white rounded-full px-3 py-1 text-xs font-medium flex items-center hover:bg-finops-blue/90 transition-colors">
-                        Resolve Now
+                        Review RCA / Resolve Now
                         <ArrowRight className="h-3 w-3 ml-1" />
                       </button>
                     </div>
