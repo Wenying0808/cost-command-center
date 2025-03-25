@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       <div className="container flex h-16 items-center px-4 sm:px-6 lg:px-8">
         <div className="mr-8">
           <h1 className="text-lg font-semibold tracking-tight">
-            <span className="text-finops-blue">Fin</span>Ops Operations Center
+            <span className="text-indigo-600">Tru+</span>
           </h1>
         </div>
         <nav className="flex items-center space-x-6 text-sm font-medium">

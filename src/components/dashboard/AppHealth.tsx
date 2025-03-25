@@ -130,7 +130,7 @@ const AppHealth: React.FC = () => {
       </div>
 
       {/* Main Dashboard Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Panel: Health Breakdown */}
         <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
           <div className="glass-card rounded-xl p-5">
@@ -217,11 +217,6 @@ const AppHealth: React.FC = () => {
                   </div>
                 </div>
               ))}
-              
-              <div className="glass-card bg-finops-blue/5 rounded-xl p-4 border border-finops-blue/20 mt-6">
-                <h3 className="text-sm font-medium mb-2 text-finops-blue">AI Recommendation</h3>
-                <p className="text-sm">Consider implementing lifecycle policies for S3 buckets to save up to $320/month.</p>
-              </div>
             </div>
           </div>
         </div>
@@ -256,22 +251,20 @@ const AppHealth: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* Status Log */}
         <div className="glass-card rounded-xl p-5">
           <h2 className="text-lg font-semibold mb-4">Health Status Log</h2>
           <div className="space-y-3">
             {statusLogs.map((log, index) => (
               <div key={index} className="glass-card rounded-lg p-3">
-                <div className="flex items-center">
-                  <StatusBadge status={log.status as any} className="mr-2" />
-                  <div className="text-sm font-medium">{log.date}</div>
-                </div>
+                <div className="text-sm font-medium">{log.date}</div>
                 <p className="text-xs text-finops-gray-600 dark:text-finops-gray-300 mt-1">
                   {log.description}
                 </p>
               </div>
             ))}
           </div>
-          </div>
+        </div>
       </div>
     </div>
   );
