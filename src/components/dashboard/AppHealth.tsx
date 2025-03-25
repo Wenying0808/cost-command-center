@@ -252,25 +252,26 @@ const AppHealth: React.FC = () => {
                 </div>
               </div>
               
-              <div>
-                <h3 className="text-sm font-medium mb-3">Health Status Log</h3>
-                <div className="space-y-3">
-                  {statusLogs.map((log, index) => (
-                    <div key={index} className="glass-card rounded-lg p-3">
-                      <div className="flex items-center">
-                        <StatusBadge status={log.status as any} className="mr-2" />
-                        <div className="text-sm font-medium">{log.date}</div>
-                      </div>
-                      <p className="text-xs text-finops-gray-600 dark:text-finops-gray-300 mt-1">
-                        {log.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
+        <div className="glass-card rounded-xl p-5">
+          <h2 className="text-lg font-semibold mb-4">Health Status Log</h2>
+          <div className="space-y-3">
+            {statusLogs.map((log, index) => (
+              <div key={index} className="glass-card rounded-lg p-3">
+                <div className="flex items-center">
+                  <StatusBadge status={log.status as any} className="mr-2" />
+                  <div className="text-sm font-medium">{log.date}</div>
+                </div>
+                <p className="text-xs text-finops-gray-600 dark:text-finops-gray-300 mt-1">
+                  {log.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          </div>
       </div>
     </div>
   );

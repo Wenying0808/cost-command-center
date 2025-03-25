@@ -2,7 +2,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-type StatusType = "green" | "yellow" | "red" | "default";
+type StatusType = "green" | "yellow" | "red" |  "low" | "medium" | "high" | "default";
 
 interface StatusBadgeProps {
   status: StatusType;
@@ -22,6 +22,12 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({
       case "yellow":
         return "status-yellow";
       case "red":
+        return "status-red";
+      case "low":
+        return "status-green";
+      case "medium":
+        return "status-yellow";
+      case "high":
         return "status-red";
       default:
         return "bg-finops-gray-200 text-finops-gray-700";

@@ -19,12 +19,12 @@ const DashboardHome: React.FC = () => {
   
   // Mock data for demonstration
   const anomalyMapData = [
-    { name: "App A", value: 3, status: "green", cost: "$240", service: "S3" },
-    { name: "App B", value: 12, status: "red", cost: "$1,250", service: "EC2" },
-    { name: "App C", value: 7, status: "yellow", cost: "$520", service: "Lambda" },
-    { name: "App D", value: 4, status: "green", cost: "$310", service: "DynamoDB" },
-    { name: "App E", value: 8, status: "yellow", cost: "$680", service: "RDS" },
-    { name: "App F", value: 2, status: "green", cost: "$180", service: "CloudFront" },
+    { name: "App A", value: 3, status: "low", cost: "$240", service: "S3" },
+    { name: "App B", value: 12, status: "high", cost: "$1,250", service: "EC2" },
+    { name: "App C", value: 7, status: "medium", cost: "$520", service: "Lambda" },
+    { name: "App D", value: 4, status: "low", cost: "$310", service: "DynamoDB" },
+    { name: "App E", value: 8, status: "medium", cost: "$680", service: "RDS" },
+    { name: "App F", value: 2, status: "low", cost: "$180", service: "CloudFront" },
   ];
 
   const leaderboardData = [
@@ -68,7 +68,7 @@ const DashboardHome: React.FC = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Welcome to FinOps Ops Center – Your Cost Command Hub
+              My Cost Command Hub
             </h1>
             <p className="text-finops-gray-600 dark:text-finops-gray-300 mt-1">
               {date} • 
