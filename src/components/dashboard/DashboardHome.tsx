@@ -1,11 +1,13 @@
-
 import React from "react";
 import { DollarSign, Clock, TrendingUp, Award, Shield } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
+import { useNavigate } from "react-router-dom";
 
 const DashboardHome: React.FC = () => {
+  const navigate = useNavigate();
+  
   // Mock data for demonstration
   const anomalyMapData = [
     { name: "App A", value: 3, status: "green" },
@@ -36,6 +38,10 @@ const DashboardHome: React.FC = () => {
     month: "long",
     day: "numeric",
   });
+  
+  const handleAppClick = (appName: string) => {
+    navigate("/app-health", { state: { appName } });
+  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -127,9 +133,10 @@ const DashboardHome: React.FC = () => {
                 <div 
                   key={app.name}
                   className="glass-card hover:shadow-md transition-all duration-200 cursor-pointer rounded-lg p-3 flex justify-between items-center"
+                  onClick={() => handleAppClick(app.name)}
                 >
                   <div>
-                    <div className="font-medium">{app.name}</div>
+                    <div className="font-medium text-finops-blue hover:underline">{app.name}</div>
                     <div className="text-xs text-finops-gray-500 dark:text-finops-gray-400">
                       {app.value}% anomaly cost
                     </div>

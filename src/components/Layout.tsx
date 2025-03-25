@@ -1,9 +1,11 @@
 
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./shared/Navbar";
 
 const Layout: React.FC = () => {
+  const location = useLocation();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-finops-gray-50 to-finops-gray-100 dark:from-finops-gray-900 dark:to-finops-gray-800">
       <Navbar />

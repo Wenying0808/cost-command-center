@@ -1,16 +1,35 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { TrendingUp, ArrowRight, Flag } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const AppHealth: React.FC = () => {
-  // Mock data for demonstration
-  const appHealth = {
-    name: "App X",
-    score: 82,
-    status: "green",
+  const [selectedApp, setSelectedApp] = useState("App X");
+
+  // Mock data for demonstration - this would come from an API in a real application
+  const apps = [
+    { name: "App X", score: 82, status: "green" },
+    { name: "App A", score: 90, status: "green" },
+    { name: "App B", score: 60, status: "red" },
+    { name: "App C", score: 75, status: "yellow" },
+    { name: "App D", score: 85, status: "green" },
+    { name: "App E", score: 65, status: "yellow" },
+    { name: "App F", score: 95, status: "green" },
+  ];
+
+  // Find the selected app data
+  const appHealth = apps.find(app => app.name === selectedApp) || apps[0];
+
+  // Mock data specific to the selected app
+  const mockData = {
     totalSpend: "$12,450",
     anomalyCost: "$980",
     anomalyTrend: { value: 15, isPositive: false }
@@ -72,15 +91,30 @@ const AppHealth: React.FC = () => {
     }
   ];
 
+  const handleAppChange = (value: string) => {
+    setSelectedApp(value);
+  };
+
   return (
     <div className="space-y-8 pb-10">
       {/* App Header */}
       <div className="glass-card rounded-xl p-6 animate-fade-up">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold tracking-tight mr-3">
-              {appHealth.name}
-            </h1>
+            <div className="w-48 mr-4">
+              <Select value={selectedApp} onValueChange={handleAppChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select app" />
+                </SelectTrigger>
+                <SelectContent>
+                  {apps.map((app) => (
+                    <SelectItem key={app.name} value={app.name}>
+                      {app.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <StatusBadge 
               status={appHealth.status as any} 
               label={`${appHealth.score}/100`} 
@@ -89,7 +123,7 @@ const AppHealth: React.FC = () => {
           </div>
           <div className="flex items-center text-finops-gray-600 dark:text-finops-gray-300">
             <span className="font-medium">Total Spend:</span>
-            <span className="ml-2 font-semibold">{appHealth.totalSpend}</span>
+            <span className="ml-2 font-semibold">{mockData.totalSpend}</span>
           </div>
         </div>
       </div>
@@ -103,8 +137,8 @@ const AppHealth: React.FC = () => {
             <div className="space-y-4">
               <MetricCard
                 title="Total Cost of Anomalies"
-                value={appHealth.anomalyCost}
-                trend={appHealth.anomalyTrend}
+                value={mockData.anomalyCost}
+                trend={mockData.anomalyTrend}
               />
               
               <div className="glass-card rounded-xl p-4">
