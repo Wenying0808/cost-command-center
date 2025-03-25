@@ -277,13 +277,13 @@ const RootCauseAnalysisTable = () => {
   
   const getStatusClass = (status: string) => {
     switch (status) {
-        case 'to RCA': return 'to RCA';
-      case 'pending': return 'status-pending';
-      case 'todo': return 'status-todo';
-      case 'in_progress': return 'status-in-progress';
-      case 'completed': return 'status-completed';
-      case 'failed': return 'status-failed';
-      default: return 'status-pending';
+        case 'to RCA': return 'bg-gray-500'; // Gray
+        case 'todo': return 'bg-yellow-500'; // Yellow
+        case 'in progress': return 'bg-blue-500'; // Blue
+        case 'review': return 'bg-purple-500'; // Purple
+        case 'done': return 'bg-green-500'; // Green
+        case 'failed': return 'bg-red-500'; // Red (optional)
+        default: return 'bg-gray-300'; // Default color
     }
   };
   
@@ -328,7 +328,7 @@ const RootCauseAnalysisTable = () => {
               >
                 <TableCell className="font-medium">{rca.title}</TableCell>
                 <TableCell>
-                  <span className={getStatusClass(rca.status)}>
+                  <span className={`rounded-full px-2 py-1 text-white ${getStatusClass(rca.status)}`}>
                     {formatStatus(rca.status)}
                   </span>
                 </TableCell>
