@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { TrendingUp, ArrowRight, Flag } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
@@ -204,13 +205,13 @@ const AppHealth: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex space-x-2">
-                      <button className="bg-finops-blue text-white rounded-full px-3 py-1 text-xs font-medium flex items-center hover:bg-finops-blue/90 transition-colors">
-                        Resolve Now
-                        <ArrowRight className="h-3 w-3 ml-1" />
-                      </button>
                       <button className="bg-finops-gray-200 dark:bg-finops-gray-700 text-finops-gray-700 dark:text-finops-gray-200 rounded-full px-3 py-1 text-xs font-medium flex items-center hover:bg-finops-gray-300 dark:hover:bg-finops-gray-600 transition-colors">
                         <Flag className="h-3 w-3 mr-1" />
                         Flag
+                      </button>
+                      <button className="bg-finops-blue text-white rounded-full px-3 py-1 text-xs font-medium flex items-center hover:bg-finops-blue/90 transition-colors">
+                        Resolve Now
+                        <ArrowRight className="h-3 w-3 ml-1" />
                       </button>
                     </div>
                   </div>
