@@ -237,11 +237,11 @@ const AppHealth: React.FC = () => {
                 </div>
               </div>
               
-              <div className="glass-card bg-finops-green/5 rounded-xl p-4 border border-finops-green/20">
-                <h3 className="text-sm font-medium mb-2 text-finops-green">Quick Wins</h3>
+              <div className="glass-card bg-finops-purple/5 rounded-xl p-4 border border-finops-purple/20">
+                <h3 className="text-sm font-medium mb-2 text-finops-purple">Quick Wins</h3>
                 <div className="flex items-center justify-between">
                   <p className="text-sm">Reduce MTTR by 1 hr</p>
-                  <span className="text-xs font-semibold bg-finops-green/10 text-finops-green py-1 px-2 rounded-full">
+                  <span className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
                     +50 points
                   </span>
                 </div>

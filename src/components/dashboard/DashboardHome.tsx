@@ -112,7 +112,7 @@ const DashboardHome: React.FC = () => {
         {/* Left Panel: Personal Scorecard */}
         <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
           <div className="glass-card rounded-xl p-5">
-            <h2 className="text-lg font-semibold mb-4">Your Stats</h2>
+            <h2 className="text-lg font-semibold mb-4">My Stats</h2>
             <div className="space-y-4">
               <MetricCard
                 title="Total Cost of Anomalies Resolved"
@@ -171,11 +171,7 @@ const DashboardHome: React.FC = () => {
         {/* Center Panel: Heatmap & Cost by Service */}
         <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.2s" }}>
           <div className="glass-card rounded-xl p-5">
-            <h2 className="text-lg font-semibold mb-4">Anomaly Heatmap</h2>
-            <p className="text-xs text-finops-gray-500 dark:text-finops-gray-400 mb-4">
-              Percentage of Spend Affected by Anomalies
-            </p>
-            
+            <h2 className="text-lg font-semibold mb-4">Percentage of Spend Affected by Anomalies Per App</h2>           
             <div className="space-y-4 mb-6">
               {anomalyMapData.map((app) => (
                 <div 
