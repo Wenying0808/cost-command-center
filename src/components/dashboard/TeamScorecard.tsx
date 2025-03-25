@@ -1,6 +1,5 @@
-
 import React from "react";
-import { Users, Trophy, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Users, Trophy, TrendingUp, CheckCircle2, BarChart } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
@@ -167,7 +166,7 @@ const TeamScorecard: React.FC = () => {
                     </div>
                     <div>
                       <button className="text-finops-blue hover:text-finops-blue/80 transition-colors">
-                        <ChartBar className="h-5 w-5" />
+                        <BarChart className="h-5 w-5" />
                       </button>
                     </div>
                   </div>
