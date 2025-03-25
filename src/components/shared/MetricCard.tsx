@@ -12,6 +12,8 @@ interface MetricCardProps {
   };
   className?: string;
   onClick?: () => void;
+  // New prop to indicate metrics where negative trend is actually positive
+  inverseTrend?: boolean;
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({
@@ -21,7 +23,19 @@ const MetricCard: React.FC<MetricCardProps> = ({
   trend,
   className,
   onClick,
+  inverseTrend = false,
 }) => {
+  // Determine if this is a cost metric that should be inverse colored
+  const isCostMetric = inverseTrend || 
+    title.toLowerCase().includes("cost") || 
+    title.toLowerCase().includes("mttd") || 
+    title.toLowerCase().includes("mttr");
+  
+  // Calculate the actual positive/negative display based on the metric type
+  const displayPositive = isCostMetric 
+    ? !trend?.isPositive 
+    : trend?.isPositive;
+
   return (
     <div
       className={cn(
@@ -50,7 +64,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
           <div
             className={cn(
               "flex items-center rounded-full px-1.5 py-0.5",
-              trend.isPositive
+              displayPositive
                 ? "bg-finops-green/10 text-finops-green"
                 : "bg-finops-red/10 text-finops-red"
             )}
