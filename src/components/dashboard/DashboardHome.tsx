@@ -191,13 +191,6 @@ const DashboardHome: React.FC = () => {
               ))}
             </div>
             
-            <div className="mt-6">
-              <h3 className="text-sm font-medium mb-4">Anomaly Cost by Service</h3>
-              <div className="h-[180px]">
-                <Chart type="pie" data={costDataByService} height={180} />
-              </div>
-            </div>
-            
             <div className="mt-4 flex justify-center">
               <button 
                 className="text-xs text-finops-blue underline"
@@ -292,6 +285,12 @@ const DashboardHome: React.FC = () => {
               <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
                 <span className="font-medium">Primary Service:</span>
                 <span>{anomalyDetails.service}</span>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-sm font-medium mb-4">Anomaly Cost by Service</h3>
+                <div className="h-[180px]">
+                  <Chart type="pie" data={costDataByService} height={180} />
+                </div>
               </div>
               
               <div className="flex justify-center mt-6">

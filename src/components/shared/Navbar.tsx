@@ -1,12 +1,18 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChartBar, Activity, AlertTriangle, Users } from "lucide-react";
+import { Cpu, ChartBar, Activity, AlertTriangle, Users } from "lucide-react";
+
 
 const Navbar: React.FC = () => {
   const location = useLocation();
   
   const navItems = [
+    {
+      name: "FinOps Center", 
+      path: "/finops-center", 
+      icon: <Cpu className="h-5 w-5" /> 
+    },
     { 
       name: "Mission Control", 
       path: "/", 
