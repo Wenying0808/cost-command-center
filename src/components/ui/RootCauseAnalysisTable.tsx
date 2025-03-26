@@ -368,8 +368,8 @@ const RootCauseAnalysisTable = () => {
           Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, mockRootCauseAnalyses.length)} of {mockRootCauseAnalyses.length} items
         </span>
       </div>
-      <div className="flex space-x-4 mb-4">
-        <select className="border rounded p-2">
+      <div className="flex space-x-4 mb-4 items-center">
+        <select className="border rounded py-2 px-4">
           <option value="">All Statuses</option>
           <option value="to RCA">To RCA</option>
           <option value="todo">Todo</option>
@@ -384,6 +384,7 @@ const RootCauseAnalysisTable = () => {
           <option value="GCP">GCP</option>
           {/* Add more cloud providers as needed */}
         </select>
+        <span>other filters...</span>
       </div>
       
       <div className="bg-white rounded-lg border border-finops-border-light overflow-hidden shadow-sm">

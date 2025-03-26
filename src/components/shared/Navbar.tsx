@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Cpu, ChartBar, Activity, AlertTriangle, Users } from "lucide-react";
+import { Cpu, ChartBar, Activity, Users, Pickaxe, Goal } from "lucide-react";
 
 
 const Navbar: React.FC = () => {
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
     { 
       name: "Mission Control", 
       path: "/", 
-      icon: <ChartBar className="h-5 w-5" /> 
+      icon: <Goal className="h-5 w-5" /> 
     },
     { 
       name: "App Pulse", 
@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
     { 
       name: "Action Station", 
       path: "/anomaly-resolution", 
-      icon: <AlertTriangle className="h-5 w-5" /> 
+      icon: <Pickaxe className="h-5 w-5" /> 
     },
     { 
       name: "Squad Stats", 

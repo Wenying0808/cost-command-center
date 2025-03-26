@@ -50,10 +50,13 @@ const AnomalyResolution: React.FC = () => {
             value={`${anomalyData.detectedAgo} ago`}
             className="hover:border-finops-blue/30"
           />
-          <div className="flex items-center bg-finops-red/10 text-finops-red px-3 py-2 rounded-lg animate-pulse-soft">
-              <AlarmClock className="h-4 w-4 mr-2" />
-              <span className="font-medium">MTTD Clock: {anomalyData.mttdClock}</span>
+          {/*
+            <div className="flex items-center bg-finops-red/10 text-finops-red px-3 py-2 rounded-lg animate-pulse-soft">
+                <AlarmClock className="h-4 w-4 mr-2" />
+                <span className="font-medium">MTTD Clock: {anomalyData.mttdClock}</span>
             </div>
+          */}
+          
         </div>
       </div>
 

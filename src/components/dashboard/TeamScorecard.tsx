@@ -1,5 +1,5 @@
 import React from "react";
-import { Users, Trophy, TrendingUp, CheckCircle2, BarChart } from "lucide-react";
+import { Users, Trophy, TrendingUp, CheckCircle2, BarChart, Navigation } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
@@ -18,7 +18,8 @@ const TeamScorecard: React.FC = () => {
     recurringCost: "5.8%",
     mttd: "1.8 hrs",
     mttr: "4.2 hrs",
-    detectionAccuracy: "91%"
+    detectionAccuracy: "91%",
+    score: "74"
   };
 
   const teamApps = [
@@ -49,11 +50,11 @@ const TeamScorecard: React.FC = () => {
     }
   ];
 
-  const topTeamMembers = [
-    { name: "Jane", points: 1200, avatar: "J" },
-    { name: "Mike", points: 900, avatar: "M" },
-    { name: "Sarah", points: 850, avatar: "S" },
-    { name: "Alex", points: 720, avatar: "A" },
+  const topTeams = [
+    { name: "Team X", points: 91, avatar: "X" },
+    { name: "Team Z", points: 87, avatar: "Z" },
+    { name: "Team Y", points: 81, avatar: "Y" },
+    { name: "Team C", points: 74, avatar: "C" },
   ];
 
   const trendData = [
@@ -130,12 +131,18 @@ const TeamScorecard: React.FC = () => {
                   trend={{ value: 5, isPositive: true }}
                 />
               </div>
-              
-              <MetricCard
-                title="Detection Accuracy"
-                value={teamFPIs.detectionAccuracy}
-                trend={{ value: 3, isPositive: true }}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <MetricCard
+                  title="Detection Accuracy"
+                  value={teamFPIs.detectionAccuracy}
+                  trend={{ value: 3, isPositive: true }}
+                />
+                <MetricCard
+                  title="Score"
+                  value={teamFPIs.score}
+                  trend={{ value: 1, isPositive: true }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -243,7 +250,7 @@ const TeamScorecard: React.FC = () => {
               <div>
                 <h3 className="text-sm font-medium mb-3">Top Performers</h3>
                 <div className="space-y-2">
-                  {topTeamMembers.map((member, index) => (
+                  {topTeams.map((member, index) => (
                     <div 
                       key={member.name}
                       className="glass-card rounded-lg p-3 flex justify-between items-center"
@@ -259,10 +266,16 @@ const TeamScorecard: React.FC = () => {
                             Leader
                           </div>
                         )}
+                        {index === 3 && (
+                          <div className="ml-2 bg-finops-red/10 text-finops-red text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
+                            <Navigation className="h-3 w-3 mr-1" />
+                            My Team
+                          </div>
+                        )}
                       </div>
                       <div>
                         <span className="font-semibold">{member.points}</span>
-                        <span className="text-finops-gray-500 dark:text-finops-gray-400 text-xs ml-1">pts</span>
+                        <span className="text-finops-gray-500 dark:text-finops-gray-400 text-xs ml-1">score</span>
                       </div>
                     </div>
                   ))}
