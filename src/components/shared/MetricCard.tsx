@@ -26,7 +26,6 @@ const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   // Determine if this is a cost metric that should be inverse colored
   const isCostMetric = inverseTrend || 
-
     title === "Recurring Anomaly Cost %" ||
     title === "Cost Escalation Risk %" ||
     title === "Total Cost of Anomalies Reduced"||

@@ -12,15 +12,18 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { toast } from "sonner";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import Chart from '../shared/Chart';
+import { ArrowRight } from 'lucide-react';
 
 interface RootCauseAnalysis {
   id: string;
   title: string;
   status: 'to RCA' | 'todo' | 'in progress' | 'done' | 'failed';
   timeToRCA: string;
+  MMTD: string;
+  MMTR: string;
   costImpact: number;
   costDeviation: number;
-  confidence: number;
   createdAt: string;
   description: string;
   app: string;
@@ -51,9 +54,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "EC2 idle instances",
     status: "to RCA",
     timeToRCA: "",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 430,
     costDeviation: 12.5,
-    confidence: 80,
     createdAt: "2023-05-15T09:24:00Z",
     description: "Several EC2 instances are running at less than 5% CPU utilization for extended periods.",
     app: "App A",
@@ -64,9 +68,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "S3 bucket policy misconfiguration",
     status: "todo",
     timeToRCA: "1 hr 20 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 280,
     costDeviation: 8.2,
-    confidence: 65,
     createdAt: "2023-05-14T14:37:00Z",
     description: "S3 bucket policies are not optimized for cost efficiency, resulting in unnecessary data transfer costs.",
     app: "App B",
@@ -77,9 +82,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "RDS overprovisioned memory",
     status: "in progress",
     timeToRCA: "55 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 320,
     costDeviation: 9.5,
-    confidence: 45,
     createdAt: "2023-05-14T10:12:00Z",
     description: "RDS instances are provisioned with more memory than needed based on usage patterns.",
     app: "App C",
@@ -90,9 +96,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "Lambda function execution time anomaly",
     status: "done",
     timeToRCA: "1 hr 5 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "5 hr 20 min",
     costImpact: 150,
     costDeviation: 4.2,
-    confidence: 92,
     createdAt: "2023-05-13T16:48:00Z",
     description: "Lambda functions are taking longer to execute than usual, resulting in higher costs.",
     app: "App D",
@@ -103,9 +110,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "Elastic IP addresses not attached",
     status: "todo",
     timeToRCA: "35 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 75,
     costDeviation: 2.1,
-    confidence: 88,
     createdAt: "2023-05-13T11:30:00Z",
     description: "Several Elastic IP addresses are not attached to running instances but are still being billed.",
     app: "App E",
@@ -116,9 +124,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "DynamoDB provisioned capacity overutilization",
     status: "failed",
     timeToRCA: "1 hr 15 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "2 hr",
     costImpact: 210,
     costDeviation: 6.3,
-    confidence: 72,
     createdAt: "2023-05-12T09:15:00Z",
     description: "DynamoDB tables have provisioned capacity significantly higher than actual usage.",
     app: "App F",
@@ -129,9 +138,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "EBS volumes not deleted after instance termination",
     status: "to RCA",
     timeToRCA: "",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 185,
     costDeviation: 5.4,
-    confidence: 81,
     createdAt: "2023-05-12T08:22:00Z",
     description: "EBS volumes remain after EC2 instance termination, resulting in ongoing storage costs.",
     app: "App G",
@@ -142,9 +152,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "CloudFront distribution caching not optimized",
     status: "to RCA",
     timeToRCA: "",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 240,
     costDeviation: 7.1,
-    confidence: 68,
     createdAt: "2023-05-11T15:40:00Z",
     description: "CloudFront distributions have suboptimal cache settings, resulting in higher origin request rates.",
     app: "App H",
@@ -155,9 +166,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "NAT Gateway idle but active",
     status: "in progress",
     timeToRCA: "40 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 195,
     costDeviation: 5.7,
-    confidence: 90,
     createdAt: "2023-05-11T13:05:00Z",
     description: "NAT Gateways are deployed but have minimal data processing, resulting in unnecessary hourly charges.",
     app: "App I",
@@ -168,9 +180,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "Redshift cluster running during non-business hours",
     status: "todo",
     timeToRCA: "1hr 10 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 520,
     costDeviation: 15.3,
-    confidence: 85,
     createdAt: "2023-05-10T17:20:00Z",
     description: "Redshift clusters are running 24/7 but are only actively queried during business hours.",
     app: "App J",
@@ -181,9 +194,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "Autoscaling group misconfigured min capacity",
     status: "in progress",
     timeToRCA: "55 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "",
     costImpact: 310,
     costDeviation: 9.1,
-    confidence: 79,
     createdAt: "2023-05-10T10:45:00Z",
     description: "Autoscaling groups have minimum capacity set too high for actual workload requirements.",
     app: "App K",
@@ -194,9 +208,10 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     title: "Elasticsearch domain oversized",
     status: "failed",
     timeToRCA: "1 hr 25 min",
+    MMTD: "2 hr 15 min",
+    MMTR: "3 hr 15 min",
     costImpact: 280,
     costDeviation: 8.2,
-    confidence: 70,
     createdAt: "2023-05-09T14:30:00Z",
     description: "Elasticsearch domains are provisioned with more instances or larger instance types than needed.",
     app: "App L",
@@ -252,6 +267,13 @@ const mockDrillDownData: Record<string, DrillDownData> = {
   },
   // ... could add more for other RCAs
 };
+
+const serviceData = [
+    { name: "EC2", value: 300 },
+    { name: "S3", value: 120 },
+    { name: "RDS", value: 80 },
+    { name: "Lambda", value: 40 },
+];
 
 const RootCauseAnalysisTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -332,6 +354,23 @@ const RootCauseAnalysisTable = () => {
           Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, mockRootCauseAnalyses.length)} of {mockRootCauseAnalyses.length} items
         </span>
       </div>
+      <div className="flex space-x-4 mb-4">
+        <select className="border rounded p-2">
+          <option value="">All Statuses</option>
+          <option value="to RCA">To RCA</option>
+          <option value="todo">Todo</option>
+          <option value="in progress">In Progress</option>
+          <option value="done">Done</option>
+          <option value="failed">Failed</option>
+        </select>
+        <select className="border rounded p-2">
+          <option value="">All Cloud Providers</option>
+          <option value="AWS">AWS</option>
+          <option value="Azure">Azure</option>
+          <option value="GCP">GCP</option>
+          {/* Add more cloud providers as needed */}
+        </select>
+      </div>
       
       <div className="bg-white rounded-lg border border-finops-border-light overflow-hidden shadow-sm">
         <Table>
@@ -339,7 +378,9 @@ const RootCauseAnalysisTable = () => {
             <TableRow className="bg-gray-50 hover:bg-gray-50">
               <TableHead className="font-medium">Opportunity</TableHead>
               <TableHead className="font-medium">Status</TableHead>
+              <TableHead className="font-medium">MMTD</TableHead>
               <TableHead className="font-medium">Time to RCA</TableHead>
+              <TableHead className="font-medium">MMTR</TableHead>
               <TableHead className="font-medium text-right">Cost Impact</TableHead>
               <TableHead className="font-medium text-right">Deviation %</TableHead>
               <TableHead className="font-medium">App</TableHead>
@@ -359,7 +400,9 @@ const RootCauseAnalysisTable = () => {
                     {formatStatus(rca.status)}
                   </span>
                 </TableCell>
+                <TableCell>{rca.MMTD}</TableCell>
                 <TableCell>{rca.timeToRCA}</TableCell>
+                <TableCell>{rca.MMTR}</TableCell>
                 <TableCell className="text-right">${rca.costImpact.toLocaleString()}</TableCell>
                 <TableCell className="text-right">{rca.costDeviation}%</TableCell>
                 <TableCell>{rca.app}</TableCell>
@@ -511,34 +554,89 @@ const RootCauseAnalysisTable = () => {
                     </TableBody>
                   </Table>
                 </div>
+                        {/* Service Drill-Down */}
+                <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.4s" }}>
+                    <div className="glass-card rounded-xl p-5">
+                        <h2 className="text-lg font-semibold mb-4">Service Drill-Down</h2>
+                        <div className="space-y-4">
+                        <div className="glass-card rounded-xl p-4">
+                            <h3 className="text-sm font-medium mb-3">Anomaly Cost Concentration</h3>
+                            <div className="h-[250px]">
+                            <Chart type="bar" data={serviceData} height={250} />
+                            </div>
+                    </div>
+                    
+                    <div className="glass-card bg-finops-orange/5 rounded-xl p-4 border border-finops-orange/20">
+                        <h3 className="text-sm font-medium mb-2 text-finops-orange">Service Spotlight Challenge</h3>
+                        <div className="flex items-center justify-between mb-3">
+                        <p className="text-sm">Fix EC2 anomaly</p>
+                        <span className="text-xs font-semibold bg-finops-orange/10 text-finops-orange py-1 px-2 rounded-full">
+                            +200 points
+                        </span>
+                        </div>
+                        <button className="w-full mt-1 bg-finops-orange/10 text-finops-orange rounded-lg py-2 text-sm font-medium hover:bg-finops-orange/20 transition-colors flex items-center justify-center">
+                        Take Challenge
+                        <ArrowRight className="h-4 w-4 ml-1" />
+                        </button>
+                    </div>
+                </div>
+                </div>
+                </div>
+
+                
                 
                 {/* Savings & Rewards Info */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="finops-card">
-                    <h3 className="text-lg font-medium mb-2">Potential Cost Avoidance</h3>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-bold text-finops-green">
-                        ${mockDrillDownData[selectedRCA.id].potentialSavings.toLocaleString()}
-                      </span>
-                      <span className="text-finops-text-secondary">/month</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="glass-card bg-finops-green/5 rounded-xl p-4 border border-finops-green/20">
+                        <h3 className="text-sm font-medium mb-3 text-finops-green">Cost Avoidance from Resolution</h3>
+                        <div className="text-3xl font-bold text-finops-green">$430/month</div>
+                        <p className="text-xs text-finops-gray-500 dark:text-finops-gray-400 mt-1">
+                        Projected savings if issue is fully resolved
+                        </p>
                     </div>
-                    <p className="mt-2 text-sm text-finops-text-secondary">
-                      Projected savings if issue is fully resolved
-                    </p>
-                  </div>
                   
-                  <div className="finops-card">
-                    <h3 className="text-lg font-medium mb-2">Reward Points</h3>
-                    <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-bold text-finops-purple">
-                        +{mockDrillDownData[selectedRCA.id].rewardPoints}
-                      </span>
-                      <span className="text-finops-text-secondary">points</span>
+                  <div className="glass-card bg-finops-purple/5 rounded-xl p-4 border border-finops-purple/20">
+                    <h3 className="text-sm font-medium mb-2 text-finops-purple">RCA Rewards</h3>
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm">Confirm correct RCA</p>
+                            <span className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
+                                +100 points
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm">Report False Alert</p>
+                            <span className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
+                                +100 points
+                            </span>
+                        </div>
                     </div>
-                    <p className="mt-2 text-sm text-finops-text-secondary">
-                      Awarded for confirming this root cause analysis
-                    </p>
+                    
                   </div>
+                  <div className="glass-card bg-finops-purple/5 rounded-xl p-4 border border-finops-purple/20">
+                    <h3 className="text-sm font-medium mb-2 text-finops-purple">Resolution Rewards</h3>
+                    <div className="space-y-3">
+                        <div className="flex justify-between items-center">
+                            <div className="text-sm">Resolve in &lt;1 hr</div>
+                            <div className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
+                            +50 points
+                            </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <div className="text-sm">Eliminate recurrence</div>
+                            <div className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
+                            +500 points
+                            </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <div className="text-sm">Document solution</div>
+                            <div className="text-xs font-semibold bg-finops-purple/10 text-finops-purple py-1 px-2 rounded-full">
+                            +100 points
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
                 </div>
               </div>
               
