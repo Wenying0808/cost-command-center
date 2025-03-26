@@ -240,6 +240,7 @@ const mockDrillDownData: Record<string, DrillDownData> = {
       { id: "3", service: "EC2 - c5.large", cost: 65, percentage: 15.1 },
       { id: "4", service: "EC2 - t3.medium", cost: 35, percentage: 8.2 },
     ],
+
     potentialSavings: 430,
     rewardPoints: 100
   },
@@ -269,16 +270,19 @@ const mockDrillDownData: Record<string, DrillDownData> = {
 };
 
 const serviceData = [
-    { name: "EC2", value: 300 },
-    { name: "S3", value: 120 },
-    { name: "RDS", value: 80 },
-    { name: "Lambda", value: 40 },
+    { name: "EC2 - t2.large", value: 210 },
+    { name: "EC2 - m5.xlarge", value: 120 },
+    { name: "EC2 - c5.large", value: 65 },
+    { name: "EC2 - t3.medium", value: 35 },
 ];
 
 const RootCauseAnalysisTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRCA, setSelectedRCA] = useState<RootCauseAnalysis | null>(null);
   const [drillDownOpen, setDrillDownOpen] = useState(false);
+  const [discardModalOpen, setDiscardModalOpen] = useState(false); // State for discard modal
+  const [discardCategory, setDiscardCategory] = useState(''); // State for selected category
+  const [discardDescription, setDiscardDescription] = useState(''); // State for description
   
   const itemsPerPage = 5;
   const totalPages = Math.ceil(mockRootCauseAnalyses.length / itemsPerPage);
@@ -305,12 +309,22 @@ const RootCauseAnalysisTable = () => {
   
   const handleDiscardAnomaly = () => {
     if (!selectedRCA) return;
-    
+    setDiscardModalOpen(true); 
+  };
+
+  const handleConfirmDiscard = () => {
+    if (!selectedRCA) return;
+
+    // Here you can handle the discard logic, e.g., sending data to an API
     toast.info("Anomaly has been discarded", {
-      description: `Anomaly ${selectedRCA.title} has been discarded`
+      description: `Anomaly ${selectedRCA.title} has been discarded for reason: ${discardCategory}. Description: ${discardDescription}. Reward: +100 points`
     });
-    
-    setDrillDownOpen(false);
+
+    // Reset states and close modal
+    setDiscardCategory('');
+    setDiscardDescription('');
+    setDiscardModalOpen(false);
+    setDrillDownOpen(false); // Close the drill down modal if it's open
   };
   
   const handleConfirmRCA = () => {
@@ -337,8 +351,8 @@ const RootCauseAnalysisTable = () => {
   
   const formatStatus = (status: string) => {
     switch (status) {
-        case 'to RCA': return 'to RCA';
-        case 'todo' : return 'Todo';
+      case 'to RCA': return 'to RCA';
+      case 'todo' : return 'Todo';
       case 'in progress': return 'In Progress';
       case 'done': return 'Done';
       case 'failed': return 'Failed';
@@ -456,7 +470,7 @@ const RootCauseAnalysisTable = () => {
       <Dialog open={drillDownOpen} onOpenChange={setDrillDownOpen}>
         <DialogContent className="sm:max-w-[1200px] p-0 overflow-hidden">
           {selectedRCA && mockDrillDownData[selectedRCA.id] && (
-            <div className="flex flex-col max-h-[85vh]">
+            <div className="flex flex-col max-h-[90vh]">
               <div className="p-6 border-b border-finops-border-light">
                 <h2 className="text-xl font-medium">{selectedRCA.title}</h2>
                 <p className="text-finops-text-secondary mt-1">{selectedRCA.description}</p>
@@ -465,8 +479,8 @@ const RootCauseAnalysisTable = () => {
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 {/* Cost Anomaly Graph */}
                 <div className="finops-card">
-                  <h3 className="text-lg font-medium mb-4">Cost Trend & Anomaly Detection</h3>
-                  <div className="h-64">
+                  <h3 className="text-lg font-medium mb-4">Expected Behavior & Actual Cost</h3>
+                  <div className="h-72">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart
                         data={mockDrillDownData[selectedRCA.id].chartData}
@@ -515,6 +529,7 @@ const RootCauseAnalysisTable = () => {
                         />
                       </AreaChart>
                     </ResponsiveContainer>
+
                     <div className="mt-3 flex items-center justify-center space-x-6">
                       <div className="flex items-center space-x-2">
                         <div className="w-3 h-3 rounded-full bg-finops-blue"></div>
@@ -531,60 +546,40 @@ const RootCauseAnalysisTable = () => {
                     </div>
                   </div>
                 </div>
-                
-                {/* Drill-down table */}
-                <div className="finops-card">
-                  <h3 className="text-lg font-medium mb-4">Cost Breakdown</h3>
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-50 hover:bg-gray-50">
-                        <TableHead className="font-medium">Service</TableHead>
-                        <TableHead className="font-medium text-right">Cost</TableHead>
-                        <TableHead className="font-medium text-right">Percentage</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockDrillDownData[selectedRCA.id].tableData.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell>{item.service}</TableCell>
-                          <TableCell className="text-right">${item.cost.toLocaleString()}</TableCell>
-                          <TableCell className="text-right">{item.percentage}%</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-                        {/* Service Drill-Down */}
+
+                {/* Drill-Down */}
                 <div className="space-y-6 animate-fade-up" style={{ animationDelay: "0.4s" }}>
                     <div className="glass-card rounded-xl p-5">
-                        <h2 className="text-lg font-semibold mb-4">Service Drill-Down</h2>
+                        <h2 className="text-lg font-semibold mb-4">Drill-Down</h2>
                         <div className="space-y-4">
                         <div className="glass-card rounded-xl p-4">
                             <h3 className="text-sm font-medium mb-3">Anomaly Cost Concentration</h3>
-                            <div className="h-[250px]">
-                            <Chart type="bar" data={serviceData} height={250} />
+                            <div className="flex flex-col space-y-8">
+                                <Table>
+                                    <TableHeader>
+                                    <TableRow className="bg-gray-50 hover:bg-gray-50">
+                                        <TableHead className="font-medium">Service</TableHead>
+                                        <TableHead className="font-medium text-right">Cost</TableHead>
+                                        <TableHead className="font-medium text-right">Percentage</TableHead>
+                                    </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                    {mockDrillDownData[selectedRCA.id].tableData.map((item) => (
+                                        <TableRow key={item.id}>
+                                        <TableCell>{item.service}</TableCell>
+                                        <TableCell className="text-right">${item.cost.toLocaleString()}</TableCell>
+                                        <TableCell className="text-right">{item.percentage}%</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    </TableBody>
+                                </Table>
+                                <Chart type="bar" data={serviceData} height={250} />
                             </div>
-                    </div>
-                    
-                    <div className="glass-card bg-finops-orange/5 rounded-xl p-4 border border-finops-orange/20">
-                        <h3 className="text-sm font-medium mb-2 text-finops-orange">Service Spotlight Challenge</h3>
-                        <div className="flex items-center justify-between mb-3">
-                        <p className="text-sm">Fix EC2 anomaly</p>
-                        <span className="text-xs font-semibold bg-finops-orange/10 text-finops-orange py-1 px-2 rounded-full">
-                            +200 points
-                        </span>
-                        </div>
-                        <button className="w-full mt-1 bg-finops-orange/10 text-finops-orange rounded-lg py-2 text-sm font-medium hover:bg-finops-orange/20 transition-colors flex items-center justify-center">
-                        Take Challenge
-                        <ArrowRight className="h-4 w-4 ml-1" />
-                        </button>
                     </div>
                 </div>
                 </div>
                 </div>
 
-                
-                
                 {/* Savings & Rewards Info */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="glass-card bg-finops-green/5 rounded-xl p-4 border border-finops-green/20">
@@ -641,15 +636,15 @@ const RootCauseAnalysisTable = () => {
               </div>
               
               <div className="p-6 border-t border-finops-border-light bg-gray-50 flex justify-between">
-                <Button 
-                  variant="outline"
-                  className="finops-button-secondary"
-                  onClick={handleDiscardAnomaly}
-                >
-                  Discard Anomaly
-                </Button>
                 
                 <div className="flex space-x-3">
+                    <Button 
+                    variant="outline"
+                    className="finops-button-secondary"
+                    onClick={handleDiscardAnomaly}
+                    >
+                    Discard Anomaly
+                    </Button>
                   <Button 
                     variant="outline"
                     className="finops-button-secondary"
@@ -669,6 +664,49 @@ const RootCauseAnalysisTable = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Discard Anomaly Modal */}
+      <Dialog open={discardModalOpen} onOpenChange={setDiscardModalOpen}>
+        <DialogContent className="sm:max-w-[600px] p-6">
+          <h2 className="text-xl font-medium mb-4">Discard Anomaly</h2>
+          <p className="mb-4">Please select a reason for discarding this anomaly and provide a description.</p>
+          
+          <select 
+            value={discardCategory} 
+            onChange={(e) => setDiscardCategory(e.target.value)} 
+            className="border rounded p-2 mb-4 w-full"
+          >
+            <option value="">Select a category</option>
+            <option value="new service">New Service</option>
+            <option value="performance testing">Performance Testing</option>
+            <option value="customer peak">Customer Peak</option>
+            <option value="false alert">False Alert</option>
+          </select>
+
+          <textarea 
+            value={discardDescription} 
+            onChange={(e) => setDiscardDescription(e.target.value)} 
+            placeholder="Enter description here..."
+            className="border rounded p-2 mb-4 w-full h-24"
+          />
+
+          <div className="flex justify-end">
+            <button 
+              className="mr-2 bg-gray-300 text-black rounded px-4 py-2" 
+              onClick={() => setDiscardModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button 
+              className="bg-red-500 text-white rounded px-4 py-2" 
+              onClick={handleConfirmDiscard}
+            >
+              Discard
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };
