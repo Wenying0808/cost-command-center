@@ -1,4 +1,3 @@
-
 import React from "react";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +26,11 @@ const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   // Determine if this is a cost metric that should be inverse colored
   const isCostMetric = inverseTrend || 
-    title.toLowerCase().includes("cost") || 
+
+    title === "Recurring Anomaly Cost %" ||
+    title === "Cost Escalation Risk %" ||
+    title === "Total Cost of Anomalies Reduced"||
+    title === "Total Cost of Anomalies"||
     title.toLowerCase().includes("mttd") || 
     title.toLowerCase().includes("mttr");
   

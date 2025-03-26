@@ -23,6 +23,8 @@ interface RootCauseAnalysis {
   confidence: number;
   createdAt: string;
   description: string;
+  app: string;
+  cloudProvider: string;
 }
 
 interface DrillDownData {
@@ -53,7 +55,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 12.5,
     confidence: 80,
     createdAt: "2023-05-15T09:24:00Z",
-    description: "Several EC2 instances are running at less than 5% CPU utilization for extended periods."
+    description: "Several EC2 instances are running at less than 5% CPU utilization for extended periods.",
+    app: "App A",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-002",
@@ -64,7 +68,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 8.2,
     confidence: 65,
     createdAt: "2023-05-14T14:37:00Z",
-    description: "S3 bucket policies are not optimized for cost efficiency, resulting in unnecessary data transfer costs."
+    description: "S3 bucket policies are not optimized for cost efficiency, resulting in unnecessary data transfer costs.",
+    app: "App B",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-003",
@@ -75,7 +81,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 9.5,
     confidence: 45,
     createdAt: "2023-05-14T10:12:00Z",
-    description: "RDS instances are provisioned with more memory than needed based on usage patterns."
+    description: "RDS instances are provisioned with more memory than needed based on usage patterns.",
+    app: "App C",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-004",
@@ -86,7 +94,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 4.2,
     confidence: 92,
     createdAt: "2023-05-13T16:48:00Z",
-    description: "Lambda functions are taking longer to execute than usual, resulting in higher costs."
+    description: "Lambda functions are taking longer to execute than usual, resulting in higher costs.",
+    app: "App D",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-005",
@@ -97,7 +107,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 2.1,
     confidence: 88,
     createdAt: "2023-05-13T11:30:00Z",
-    description: "Several Elastic IP addresses are not attached to running instances but are still being billed."
+    description: "Several Elastic IP addresses are not attached to running instances but are still being billed.",
+    app: "App E",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-006",
@@ -108,7 +120,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 6.3,
     confidence: 72,
     createdAt: "2023-05-12T09:15:00Z",
-    description: "DynamoDB tables have provisioned capacity significantly higher than actual usage."
+    description: "DynamoDB tables have provisioned capacity significantly higher than actual usage.",
+    app: "App F",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-007",
@@ -119,7 +133,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 5.4,
     confidence: 81,
     createdAt: "2023-05-12T08:22:00Z",
-    description: "EBS volumes remain after EC2 instance termination, resulting in ongoing storage costs."
+    description: "EBS volumes remain after EC2 instance termination, resulting in ongoing storage costs.",
+    app: "App G",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-008",
@@ -130,7 +146,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 7.1,
     confidence: 68,
     createdAt: "2023-05-11T15:40:00Z",
-    description: "CloudFront distributions have suboptimal cache settings, resulting in higher origin request rates."
+    description: "CloudFront distributions have suboptimal cache settings, resulting in higher origin request rates.",
+    app: "App H",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-009",
@@ -141,7 +159,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 5.7,
     confidence: 90,
     createdAt: "2023-05-11T13:05:00Z",
-    description: "NAT Gateways are deployed but have minimal data processing, resulting in unnecessary hourly charges."
+    description: "NAT Gateways are deployed but have minimal data processing, resulting in unnecessary hourly charges.",
+    app: "App I",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-010",
@@ -152,7 +172,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 15.3,
     confidence: 85,
     createdAt: "2023-05-10T17:20:00Z",
-    description: "Redshift clusters are running 24/7 but are only actively queried during business hours."
+    description: "Redshift clusters are running 24/7 but are only actively queried during business hours.",
+    app: "App J",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-011",
@@ -163,7 +185,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 9.1,
     confidence: 79,
     createdAt: "2023-05-10T10:45:00Z",
-    description: "Autoscaling groups have minimum capacity set too high for actual workload requirements."
+    description: "Autoscaling groups have minimum capacity set too high for actual workload requirements.",
+    app: "App K",
+    cloudProvider: "AWS"
   },
   {
     id: "rca-012",
@@ -174,7 +198,9 @@ const mockRootCauseAnalyses: RootCauseAnalysis[] = [
     costDeviation: 8.2,
     confidence: 70,
     createdAt: "2023-05-09T14:30:00Z",
-    description: "Elasticsearch domains are provisioned with more instances or larger instance types than needed."
+    description: "Elasticsearch domains are provisioned with more instances or larger instance types than needed.",
+    app: "App L",
+    cloudProvider: "AWS"
   }
 ];
 
@@ -277,13 +303,13 @@ const RootCauseAnalysisTable = () => {
   
   const getStatusClass = (status: string) => {
     switch (status) {
-        case 'to RCA': return 'bg-gray-500'; // Gray
-        case 'todo': return 'bg-yellow-500'; // Yellow
-        case 'in progress': return 'bg-blue-500'; // Blue
-        case 'review': return 'bg-purple-500'; // Purple
-        case 'done': return 'bg-green-500'; // Green
-        case 'failed': return 'bg-red-500'; // Red (optional)
-        default: return 'bg-gray-300'; // Default color
+        case 'to RCA': return 'bg-gray-500/10 text-gray-500'; // Gray
+        case 'todo': return 'bg-yellow-500/10 text-yellow-500'; // Yellow
+        case 'in progress': return 'bg-blue-500/10 text-blue-600'; // Blue
+        case 'review': return 'bg-purple-500/10 text-purple-500'; // Purple
+        case 'done': return 'bg-green-500/10 text-green-500'; // Green
+        case 'failed': return 'bg-red-500/10 text-red-500'; // Red (optional)
+        default: return 'bg-gray-300/10 text-gray-300'; // Default color
     }
   };
   
@@ -316,7 +342,8 @@ const RootCauseAnalysisTable = () => {
               <TableHead className="font-medium">Time to RCA</TableHead>
               <TableHead className="font-medium text-right">Cost Impact</TableHead>
               <TableHead className="font-medium text-right">Deviation %</TableHead>
-              <TableHead className="font-medium text-right">Confidence</TableHead>
+              <TableHead className="font-medium">App</TableHead>
+              <TableHead className="font-medium">Cloud Provider</TableHead>
               <TableHead className="font-medium text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -335,12 +362,13 @@ const RootCauseAnalysisTable = () => {
                 <TableCell>{rca.timeToRCA}</TableCell>
                 <TableCell className="text-right">${rca.costImpact.toLocaleString()}</TableCell>
                 <TableCell className="text-right">{rca.costDeviation}%</TableCell>
-                <TableCell className="text-right">{rca.confidence}%</TableCell>
+                <TableCell>{rca.app}</TableCell>
+                <TableCell>{rca.cloudProvider}</TableCell>
                 <TableCell className="text-right">
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="hover:bg-finops-blue/10 hover:text-finops-blue transition-colors duration-200"
+                    className="bg-finops-blue/85 hover:bg-finops-blue/95 text-white hover:text-white transition-colors duration-200"
                     onClick={() => handleDrillDown(rca)}
                   >
                     Drill Down
