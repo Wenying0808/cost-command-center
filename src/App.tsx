@@ -27,7 +27,6 @@ const App = () => (
             <Route path="/app-health" element={<AppHealth />} />
             <Route path="/anomaly-resolution" element={<AnomalyResolution />} />
             <Route path="/team-scorecard" element={<TeamScorecard />} />
-
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

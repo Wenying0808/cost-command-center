@@ -368,6 +368,7 @@ const RootCauseAnalysisTable = () => {
           Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, mockRootCauseAnalyses.length)} of {mockRootCauseAnalyses.length} items
         </span>
       </div>
+      {/* Filters */}
       <div className="flex space-x-4 mb-4 items-center">
         <select className="border rounded py-2 px-4">
           <option value="">All Statuses</option>
@@ -378,11 +379,18 @@ const RootCauseAnalysisTable = () => {
           <option value="failed">Failed</option>
         </select>
         <select className="border rounded p-2">
+          <option value="">All Apps</option>
+          <option value="AWS">App A</option>
+          <option value="Azure">App B</option>
+          <option value="GCP">App C</option>
+          <option value="GCP">App D</option>
+          <option value="GCP">App E</option>
+        </select>
+        <select className="border rounded p-2">
           <option value="">All Cloud Providers</option>
           <option value="AWS">AWS</option>
           <option value="Azure">Azure</option>
           <option value="GCP">GCP</option>
-          {/* Add more cloud providers as needed */}
         </select>
         <span>other filters...</span>
       </div>

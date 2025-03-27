@@ -1,5 +1,5 @@
 import React from "react";
-import { AlarmClock, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
+import { AlarmClock, CheckCircle2, AlertTriangle, ArrowRight, MoveRight } from "lucide-react";
 import MetricCard from "@/components/shared/MetricCard";
 import StatusBadge from "@/components/shared/StatusBadge";
 import Chart from "@/components/shared/Chart";
@@ -8,7 +8,7 @@ import RootCauseAnalysisTable from "@/components/ui/RootCauseAnalysisTable";
 const AnomalyResolution: React.FC = () => {
   // Mock data
   const anomalyData = {
-    totalCost: "$4,320",
+    totalCost: "$14,320",
     percentageAffected: "8.5%",
     detectedAgo: "2 hrs 15 min",
     mttdClock: "2 hrs 15 min",
@@ -72,15 +72,18 @@ const AnomalyResolution: React.FC = () => {
                 <p className="text-sm text-finops-gray-500">Tru+ Detection</p>
               </div>
               <div className="text-sm text-finops-blue bg-finops-blue/10 rounded-full px-2 py-1">MMTD</div>
+              <MoveRight />
               <div className="flex flex-row gap-2 items-center">
                 <h3 className="flex items-center justify-center text-base font-medium w-6 h-6 rounded-full bg-blue-700 text-white">1</h3>
                 <p className="text-sm text-finops-gray-500">Review AI Alert</p>
               </div>
+              <MoveRight />
               <div className="flex flex-row gap-2 items-center">
                 <h3 className="flex items-center justify-center text-base font-medium w-6 h-6 rounded-full bg-blue-700 text-white">2</h3>
                 <p className="text-sm text-finops-gray-500">Discard Anomaly / Confirm Alert</p>
               </div>
               <div className="text-sm text-finops-blue bg-finops-blue/10 rounded-full px-2 py-1">time to RCA</div>
+              <MoveRight />
               <div className="flex flex-row gap-2 items-center">
                 <h3 className="flex items-center justify-center text-base font-medium w-6 h-6 rounded-full bg-blue-700 text-white">3</h3>
                 <p className="text-sm text-finops-gray-500">Implement The Solution</p>
