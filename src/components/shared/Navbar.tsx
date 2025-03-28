@@ -39,9 +39,7 @@ const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 w-full backdrop-blur-lg border-b border-finops-gray-200/50 dark:border-finops-gray-800/50 bg-white/80 dark:bg-finops-gray-900/80">
       <div className="container flex h-16 items-center px-4 sm:px-6 lg:px-8">
         <div className="mr-8">
-          <h1 className="text-lg font-semibold tracking-tight">
-            <span className="text-indigo-600">Tru+</span>
-          </h1>
+          <img src="/logo_01.png" alt="logo" className="h-8 w-auto"/>
         </div>
         <nav className="flex items-center space-x-6 text-sm font-medium">
           {navItems.map((item) => (
