@@ -143,7 +143,7 @@ const AnomalyResolution: React.FC = () => {
                           <th className="border border-gray-300 p-2">Expected Cost</th>
                           <th className="border border-gray-300 p-2">Anomaly</th>
                           <th className="border border-gray-300 p-2">Company_id</th>
-                          <td className="border border-gray-300 p-2">Drilldown</td>
+                          <th className="border border-gray-300 p-2">Drilldown</th>
                         </tr>
                     </thead>
                     <tbody>
