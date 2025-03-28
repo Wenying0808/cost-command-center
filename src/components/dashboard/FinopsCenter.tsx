@@ -263,9 +263,33 @@ const FinopsCenter: React.FC = () => {
                 <Radar data={radarData} options={radarOptions} />
                 </div>
             </div>
-            {/*supabase*/}
-            <div>
-                {JSON.stringify(anomalyFeed)}
+
+            {/* supabas - anomaly_feed */}
+            <div className="mt-6 flex flex-col bg-white p-6 rounded-lg">
+                {/*JSON.stringify(anomalyFeed)*/}
+                <h3 className="text-sm font-medium mb-4">Anomaly Feed From Supabase</h3>
+                <table className="min-w-full border-collapse border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th className="border border-gray-300 p-2">Resource Group Name</th>
+                            <th className="border border-gray-300 p-2">Cost Deviation</th>
+                            <th className="border border-gray-300 p-2">Max Deviation from Expected</th>
+                            <th className="border border-gray-300 p-2">Anomalous Items Count</th>
+                            <th className="border border-gray-300 p-2">Company_id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {anomalyFeed.map((item, index) => (
+                            <tr key={index}>
+                                <td className="border border-gray-300 p-2">{item.dim_value}</td>
+                                <td className="border border-gray-300 p-2">{item.cost_deviation}</td>
+                                <td className="border border-gray-300 p-2">{item.max_deviation_from_expected}</td>
+                                <td className="border border-gray-300 p-2">{item.anomalous_items_count}</td>
+                                <td className="border border-gray-300 p-2">{item.Company_id}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
