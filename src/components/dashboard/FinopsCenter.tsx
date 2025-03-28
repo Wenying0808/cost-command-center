@@ -186,8 +186,9 @@ const dashboardSections: SectionData[] = [
 const FinopsCenter: React.FC = () => {
     const navigate = useNavigate();
     const [anomalyFeed, setAnmalyFeed] = useState([]);
+
     useEffect(() => {
-        async function getTodos() {
+        async function getAnomalyFeed() {
           const { data: anomalyFeed } = await supabase.from('anomaly_feed').select()
     
           if (anomalyFeed.length > 1) {
@@ -195,8 +196,8 @@ const FinopsCenter: React.FC = () => {
           }
         }
     
-        getTodos()
-      }, [])
+        getAnomalyFeed()
+    }, [])
 
     // Sample data for the radar chart
     const radarData = {
@@ -285,7 +286,7 @@ const FinopsCenter: React.FC = () => {
                                 <td className="border border-gray-300 p-2">{item.cost_deviation}</td>
                                 <td className="border border-gray-300 p-2">{item.max_deviation_from_expected}</td>
                                 <td className="border border-gray-300 p-2">{item.anomalous_items_count}</td>
-                                <td className="border border-gray-300 p-2">{item.Company_id}</td>
+                                <td className="border border-gray-300 p-2">{item.company_id}</td>
                             </tr>
                         ))}
                     </tbody>
