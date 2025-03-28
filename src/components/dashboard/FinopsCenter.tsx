@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import supabase from '../../../utils/supabase';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
@@ -184,6 +185,19 @@ const dashboardSections: SectionData[] = [
 
 const FinopsCenter: React.FC = () => {
     const navigate = useNavigate();
+    const [anomalyFeed, setAnmalyFeed] = useState([]);
+    useEffect(() => {
+        async function getTodos() {
+          const { data: anomalyFeed } = await supabase.from('anomaly_feed').select()
+    
+          if (anomalyFeed.length > 1) {
+            setAnmalyFeed(anomalyFeed)
+          }
+        }
+    
+        getTodos()
+      }, [])
+
     // Sample data for the radar chart
     const radarData = {
         labels: ['Allocation', 'Anomalies', 'Forecasting', 'Rate Reduction', 'Usage Reduction', 'Unit Economics'],
@@ -248,6 +262,10 @@ const FinopsCenter: React.FC = () => {
                 <div className="h-[500px]">
                 <Radar data={radarData} options={radarOptions} />
                 </div>
+            </div>
+            {/*supabase*/}
+            <div>
+                {JSON.stringify(anomalyFeed)}
             </div>
         </div>
     );
